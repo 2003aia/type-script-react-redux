@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
+import { PostInput } from './PostInput';
+import {addPost, PostState} from './postReducer'
 
 function App() {
+  const posts =useSelector<PostState, PostState['posts']>((state)=>state.posts)
+  const dispatch= useDispatch()
+  const OnaddPost=(post:string)=>{
+    dispatch(addPost(post))
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <PostInput addPost={OnaddPost} />
+      <div>
+        {posts.map((post)=>{
+          return <h1 key={post}>{post}</h1>
+        })}
+        
+      </div>
     </div>
   );
 }
